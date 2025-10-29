@@ -1,28 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-const supabase = createClient(
-  process.env.https://rcfftyvlmqxjdpxxiapl.supabase.co,
-  process.env.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjZmZ0eXZsbXF4amRweHhpYXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Njc2MzEsImV4cCI6MjA3NzM0MzYzMX0.zyXjgwYdyYYMy94EChbWioasrUWRsx8CPuShkRa-3ms
-);
+exports.handler = async (event) => {
+  const { moderator_username, review_id } = JSON.parse(event.body);
 
-export async function handler(event) {
-  const { review_id, mod_username } = JSON.parse(event.body);
+  const { data: mod } = await supabase.from('users').select('*').eq('username', moderator_username).single();
+  if (!mod || mod.role !== 'moderator') return { statusCode: 403, body: JSON.stringify({ error: "Not authorized" }) };
 
-  const { data: modData, error: modErr } = await supabase
-    .from('users')
-    .select('*')
-    .eq('username', mod_username)
-    .single();
-
-  if (modErr || modData.role !== "moderator")
-    return { statusCode: 403, body: JSON.stringify({ error: "Not authorized" }) };
-
-  const { data, error } = await supabase
-    .from('reviews')
-    .delete()
-    .eq('id', review_id);
-
+  const { data, error } = await supabase.from('reviews').delete().eq('id', review_id);
   if (error) return { statusCode: 400, body: JSON.stringify({ error: error.message }) };
-
   return { statusCode: 200, body: JSON.stringify(data) };
-}
+};
