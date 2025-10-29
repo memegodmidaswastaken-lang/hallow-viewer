@@ -1,24 +1,16 @@
-import { createClient } from '@supabase/supabase-js';
-import bcrypt from 'bcryptjs';
+const { createClient } = require('@supabase/supabase-js');
+const bcrypt = require('bcryptjs');
 
-const supabase = createClient(
-  process.env.https://rcfftyvlmqxjdpxxiapl.supabase.co, 
-  process.env.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjZmZ0eXZsbXF4amRweHhpYXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Njc2MzEsImV4cCI6MjA3NzM0MzYzMX0.zyXjgwYdyYYMy94EChbWioasrUWRsx8CPuShkRa-3ms
-);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-export async function handler(event) {
+exports.handler = async (event) => {
   const { username, password } = JSON.parse(event.body);
 
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('username', username)
-    .single();
-
+  const { data, error } = await supabase.from('users').select('*').eq('username', username).single();
   if (error || !data) return { statusCode: 400, body: JSON.stringify({ error: "Invalid username" }) };
 
-  const valid = bcrypt.compareSync(password, data.password);
-  if (!valid) return { statusCode: 400, body: JSON.stringify({ error: "Invalid password" }) };
+  const match = bcrypt.compareSync(password, data.password);
+  if (!match) return { statusCode: 400, body: JSON.stringify({ error: "Invalid password" }) };
 
   return { statusCode: 200, body: JSON.stringify(data) };
-}
+};
