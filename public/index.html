@@ -1,19 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🎃 Halloween Candy Map</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halloween Candy Map</title>
+<link rel="stylesheet" href="style.css">
+<!-- Leaflet.js for map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-  <div class="nav">
-    <div><b>🎃 Halloween Candy Map</b></div>
-    <div id="userArea"></div>
-    <button onclick="toggleTheme()">🌙</button>
+<div id="dark-mode-toggle">🌙</div>
+
+<!-- Login/Register -->
+<div id="auth">
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+  <button id="loginBtn">Login</button>
+  <button id="registerBtn">Register</button>
+</div>
+
+<!-- Main app -->
+<div id="app" style="display:none;">
+  <div id="profile">
+    <img id="profile-pic" src="" alt="Profile Pic">
+    <span id="title"></span>
+    <span id="welcome"></span>
   </div>
-  <div id="map"></div>
-  <script src="script.js"></script>
+
+  <div id="map" style="height:500px;"></div>
+
+  <div id="add-house">
+    <h3>Add House</h3>
+    <input type="number" id="lat" placeholder="Latitude">
+    <input type="number" id="lng" placeholder="Longitude">
+    <select id="rating">
+      <option value="healthy">Healthy</option>
+      <option value="small">Small Sized Candy</option>
+      <option value="medium">Medium</option>
+      <option value="king">King Sized</option>
+      <option value="queen">Queen Sized</option>
+      <option value="candy-bag">Candy Bag</option>
+      <option value="cool-decor">Cool Decor</option>
+    </select>
+    <label><input type="checkbox" id="glutenFree"> Gluten Free</label>
+    <label><input type="checkbox" id="sugarFree"> Sugar Free</label>
+    <label><input type="checkbox" id="lactoseFree"> Lactose Free</label>
+    <input type="text" id="other" placeholder="Other Notes">
+    <input type="file" id="houseImage">
+    <textarea id="description" placeholder="Description"></textarea>
+    <button id="addHouseBtn">Add House</button>
+  </div>
+
+  <div id="reviews">
+    <h3>Reviews</h3>
+    <div id="reviewList"></div>
+    <textarea id="reviewText" placeholder="Write a review"></textarea>
+    <button id="addReviewBtn">Add Review</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
