@@ -1,38 +1,40 @@
 body {
-  font-family: Poppins, sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
-  background: #fafafa;
-  color: #222;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
 }
-body.dark {
-  background: #111;
-  color: #ddd;
-}
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background: #ff6600;
-  color: white;
-}
-button {
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 5px 10px;
+
+#dark-mode-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
 }
-button:hover { background: #555; }
-body.dark .nav { background: #222; }
-.pfp {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+
+body.dark {
+  background: #121212;
+  color: #f0f0f0;
 }
+
 #map {
+  margin: 20px;
+  border: 2px solid #333;
+}
+
+#auth, #app {
+  padding: 20px;
+}
+
+input, select, textarea, button {
+  display: block;
+  margin: 5px 0;
+  padding: 5px;
   width: 100%;
-  height: calc(100vh - 60px);
+}
+
+#profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
